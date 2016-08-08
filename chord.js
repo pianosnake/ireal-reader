@@ -1,20 +1,33 @@
 'use strict';
 
-let noteArray = ['c', null, 'd', null, 'e', 'f', null, 'g', null, 'a', null, 'b'];
+const noteValues = {
+  'c': 0,
+  'c#': 1, 'db': 1,
+  'd': 2,
+  'd#': 3, 'eb': 3,
+  'e': 4,
+  'f': 5,
+  'f#': 6, 'gb': 6,
+  'g': 7,
+  'g#': 8, 'ab': 8,
+  'a': 9,
+  'a#': 10, 'bb': 10,
+  'b': 11
+};
 
 function Chord (name){
   this.name = name.toLowerCase();
-  this.value = this.getValue();
 
-  var rootAndQuality = this.getRootAndQuality();
+  const rootAndQuality = this.getRootAndQuality();
   this.root = rootAndQuality[0];
   this.quality = rootAndQuality[1];
+  this.value = noteValues[this.root];
 
-  this.isMinor = this.is('-', '-7');
-  this.isDiminished = this.is('o', 'o7');
-  this.isHalfDiminished = this.is('h', 'h7', '7b5');
-  this.isDominant = this.is('7');
-  this.isMajor = this.is('', '^', '^7');
+  this.isMinor = this.qualityIsAny('-', '-7');
+  this.isDiminished = this.qualityIsAny('o', 'o7');
+  this.isHalfDiminished = this.qualityIsAny('h', 'h7', '7b5');
+  this.isDominant = this.qualityIsAny('7');
+  this.isMajor = this.qualityIsAny('', '^', '^7');
 }
 
 Chord.prototype = {
@@ -24,7 +37,7 @@ Chord.prototype = {
   },
 
   getRootAndQuality: function(){
-    //root is the root note of the chord  ie: c, c#
+    //root is the root note of the chord  ie: c, eb
     //quality is whatever follows the note ie: o, o7, 7b5
     var qualityNotationBegin = 1;
     if(this.name[1] === "b" || this.name[1] === "#"){
@@ -33,17 +46,7 @@ Chord.prototype = {
     return [this.name.substring(0, qualityNotationBegin), this.name.substring(qualityNotationBegin)];
   },
 
-  getValue: function(){
-    var value = noteArray.indexOf(this.name[0]);
-    if(this.name[1] === "b"){
-      value--;
-    }else if(this.name[1] === "#"){
-      value++;
-    }
-    return value;
-  },
-
-  is: function(){
+  qualityIsAny: function(){
     for(var i = 0, j = arguments.length; i < j; i++){
       if(this.quality === arguments[i]) return true;
     }
