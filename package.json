@@ -1,0 +1,22 @@
+{
+  "name": "ireal-reader",
+  "version": "1.0.0",
+  "description": "Read iReal Pro files into JS",
+  "main": "reader.js",
+  "scripts": {
+    "test": "./node_modules/.bin/jasmine-node spec"
+  },
+  "keywords": [
+    "iReal",
+    "iReal Pro",
+    "json",
+    "chords",
+    "music",
+    "music notation"
+  ],
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  },
+  "author": "Florin Alexandrescu",
+  "license": "ISC"
+}
