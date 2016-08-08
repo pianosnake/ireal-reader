@@ -14,7 +14,7 @@ function Chord (name){
   this.isDiminished = this.is('o', 'o7');
   this.isHalfDiminished = this.is('h', 'h7', '7b5');
   this.isDominant = this.is('7');
-  this.isMajor = this.is('');
+  this.isMajor = this.is('', '^', '^7');
 }
 
 Chord.prototype = {
@@ -24,6 +24,8 @@ Chord.prototype = {
   },
 
   getRootAndQuality: function(){
+    //root is the root note of the chord  ie: c, c#
+    //quality is whatever follows the note ie: o, o7, 7b5
     var qualityNotationBegin = 1;
     if(this.name[1] === "b" || this.name[1] === "#"){
       qualityNotationBegin = 2;
