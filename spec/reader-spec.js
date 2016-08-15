@@ -24,10 +24,20 @@ describe('iReal Reader', function(){
     });
 
     it('should have the right attributes', function(){
-      console.log(util.inspect(playlist, false, null));
       expect(playlist.name).toEqual("Small");
       expect(playlist.songs.length).toEqual(3);
      });
+  });
+
+  describe('five song lists', function(){
+    beforeEach(function(){
+      playlist = new iRealReader(fixtures.playlists.fiveSongs);
+    });
+
+    it('should have the right attributes', function(){
+      expect(playlist.name).toEqual("Small");
+      expect(playlist.songs.length).toEqual(6);
+    });
   });
 
   describe('two song lists inside HTML', function(){

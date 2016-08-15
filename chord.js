@@ -14,6 +14,9 @@ const noteValues = {
   'a#': 10, 'bb': 10,
   'b': 11
 };
+//TODO: handle alternate chords F-6(F#o7)
+//TODO: handle slash chords C^7/G
+//TODO: handle comments in chords B*#*
 
 function Chord (name){
   this.name = name.toLowerCase();
@@ -23,11 +26,11 @@ function Chord (name){
   this.quality = rootAndQuality[1];
   this.value = noteValues[this.root];
 
-  this.isMinor = this.qualityIsAny('-', '-7');
+  this.isMinor = this.qualityIsAny('-', '-7', '-6');
   this.isDiminished = this.qualityIsAny('o', 'o7');
   this.isHalfDiminished = this.qualityIsAny('h', 'h7', '7b5');
   this.isDominant = this.qualityIsAny('7');
-  this.isMajor = this.qualityIsAny('', '^', '^7');
+  this.isMajor = this.qualityIsAny('', '^', '^7', '6');
 }
 
 Chord.prototype = {

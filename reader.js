@@ -35,29 +35,34 @@ function Music(data){
   const parts = data.split(musicPrefix);
   this.raw = unscramble.ireal(parts[1]);
 
+  //TODO: read the time signature
   this.timeSignature = 'T44';
 
-  this.rawMeasures = this.raw.split(/\||LZ|\{|\}|\[|\]/g) //measures are delimited by |, LZ, {, }, [, ]
-    .filter(x => !/^\s*$/.test(x));
-
-  this.measures = computeMeasures(this.raw)
-
+  this.measures = createMeasures(this.raw)
 
   this.flattenChords = function(){
-    var chords = this.measures
-      .map(x => chordsOnly(x)) //turn the measures into chords
-
-    return [].concat.apply([], chords) //flatten array
-      .filter(x => !/^\s*$/.test(x))  //remove blanks
+    return [].concat.apply([], this.measures) //flatten array
       .map(x => new Chord(x)); //make chords
   }
 }
 
-function computeMeasures(data) {
+function createMeasures(data) {
   //TODO: keep track of repeats when encountering { and }
-  return data.split(/\||LZ|\{|\}|\[|\]/g) //measures are delimited by |, LZ, {, }, [, ]
-    .filter(x => !/^\s*$/.test(x))  //remove blank measures (created by splitting '} {' for example)
+
+    var measures =  data.split(/\||LZ|K|Z|\{|\}|\[|\]/g)//measures are delimited by |, LZ, {, } (repeat markers), [, ] (double barlines). Also splitting on K because Kcl seems to indicate a repeat of the previous measure. Z is the end of a song usually.
     .map((x, index, array) => chordsOnly(x, index, array))
+    .filter(x => !/^\s*$/.test(x))  //filter out blank measures
+
+  return fillInRepeats(measures);
+}
+
+function fillInRepeats(measures){
+  var repeatMeasure = measures.findIndex(x => x[0] === 'r');
+  while(repeatMeasure != -1){
+    measures.splice(repeatMeasure, 1, measures[repeatMeasure-2], measures[repeatMeasure-1]);
+    repeatMeasure = measures.findIndex(x => x && x[0] === 'r');
+  }
+  return measures;
 }
 
 function removeFromString(string, toRemove){
@@ -65,18 +70,20 @@ function removeFromString(string, toRemove){
 }
 
 function chordsOnly(data, index, array){
-  if(data.indexOf('Kcl') > 0 ){ array[index +1] = removeFromString(data, 'Kcl');}
+  if(data.indexOf('cl') === 0 ){ data = array[index-1]; } //Kcl is a repeat of whatever measure it's in. We've already split on the K's
+  if(data.indexOf('x') >= 0 ){ data = array[index-1]; } //x is a repeat of the measure before
   data = removeFromString(data, /\*\w/); //section markers *A, *B, *C
   data = removeFromString(data, /T\d+/); //time signatures T44, T34
   data = removeFromString(data, /N\d/); //repeat markers N1, N2, ...
   data = removeFromString(data, /<.*>/); //repeat comments in between carrets < ... >
   data = removeFromString(data, 'XyQ'); //empty space marker XyQ
   data = removeFromString(data, 'U'); //empty space marker U
-  data = removeFromString(data, 'x'); //repeat previous measure marker x
   data = removeFromString(data, 'Kcl'); //repeat current measure marker Kcl
+  data = removeFromString(data, 'x'); //repeat previous measure marker x
+  data = removeFromString(data, 'Q'); //coda marker
   data = removeFromString(data, 's'); //unknown marker s
   data = removeFromString(data, 'l'); //unknown marker l
-  data = removeFromString(data, 'Y'); //vertical space
+  data = removeFromString(data, 'Y'); //vertical spacer
   return data
     .split(/\s+|,/) //lastly split on commas or spaces
     .filter(x => !/^\s*$/.test(x)) // filter out blanks
