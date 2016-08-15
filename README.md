@@ -38,7 +38,7 @@ Install the module with `npm install ireal-reader`. In your project read in the 
 
 The example below shows how to read the music from an HTML file:
 
-```
+``` javascript
 const fs = require('fs');
 const iRealReader = require('ireal-reader');
 
