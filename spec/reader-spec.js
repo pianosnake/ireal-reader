@@ -1,7 +1,7 @@
 'use strict';
 
 const fixtures = require('./fixtures');
-const iRealReader = require('../reader');
+const iRealReader = require('../index');
 const util = require('util');
 
 describe('iReal Reader', function(){

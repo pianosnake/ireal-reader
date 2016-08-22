@@ -1,8 +1,8 @@
 {
   "name": "ireal-reader",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Read iReal Pro files into JS",
-  "main": "reader.js",
+  "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/jasmine-node spec"
   },
@@ -16,6 +16,10 @@
   ],
   "devDependencies": {
     "jasmine-node": "^1.14.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pianosnake/ireal-reader.git"
   },
   "author": "Florin Alexandrescu",
   "license": "ISC"

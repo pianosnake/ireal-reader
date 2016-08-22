@@ -2,7 +2,6 @@
 
 const unscramble = require('./unscramble');
 const musicPrefix = "1r34LbKcu7";
-const Chord = require('./chord');
 const regex = /.*?irealb:\/\/([^"]*)/;
 
 function iRealReader(data){
@@ -39,11 +38,6 @@ function Music(data){
   this.timeSignature = 'T44';
 
   this.measures = createMeasures(this.raw)
-
-  this.flattenChords = function(){
-    return [].concat.apply([], this.measures) //flatten array
-      .map(x => new Chord(x)); //make chords
-  }
 }
 
 function createMeasures(data) {
