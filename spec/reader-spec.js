@@ -67,9 +67,13 @@ describe('iReal Reader', function(){
     beforeEach(function(){
       playlist = new iRealReader(fixtures.playlists.troublingSongs)
     });
+
     it('every chord returned should start with A, B, C, D, E, F, or G', function(){
-      var chords = [].concat.apply([],playlist.songs[7].music.measures);
-      expect(chords.every(chord => (/^[a-g]/i).test(chord))).toEqual(true);
+      var allMeasures = [];
+      playlist.songs.forEach(s => allMeasures.push(s.music.measures));
+
+      var allChords = [].concat.apply(allMeasures);
+      expect(allChords.every(chord => (/^[a-g]/i).test(chord))).toEqual(true);
      });
   });
 

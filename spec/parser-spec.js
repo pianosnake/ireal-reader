@@ -6,7 +6,7 @@ const iRealReader = require('../index');
 fs.readFile("spec/Tester.html", "utf8", function(err, data){
   if(err) console.log(err);
   var p = new iRealReader(data);
-  console.log('tester song: ', p.songs[0].music.raw);
+//  console.log('tester song: ', p.songs[0].music.raw);
   var measures = p.songs[0].music.measures;
 
   describe('iRealPro parser', function(){
