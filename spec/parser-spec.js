@@ -8,14 +8,13 @@ const songData = new iRealReader(iRealData);
 
 const testSong = songData.songs[0].music.measures;
 const theBreezeAndI = songData.songs[3].music.measures;
-
-console.log('testSong raw', songData.songs[0].music.raw);
-console.log('testSong measures', testSong);
+const imagination = songData.songs[4].music.measures;
+const forJan = songData.songs[5].music.measures;
 
 describe('iRealPro parser', function(){
 
   it('should have the right number of measures', function(){
-    expect(testSong.length).toEqual(9);
+    expect(testSong.length).toEqual(11);
   });
 
   it('every chord returned should start with A, B, C, D, E, F, or G', function(){
@@ -49,7 +48,13 @@ describe('iRealPro parser', function(){
 
   it('should handle slash chords correctly', function(){
     expect(theBreezeAndI[10][0]).toEqual('F-7/Bb');
+    expect(imagination[13][1]).toEqual('A7b9/C#')
   });
 
+  it('should handle altered chords correctly', function(){
+    expect(forJan[0][0]).toEqual('Bb^7#11');
+    expect(forJan[2][0]).toEqual('A7b9b13');
+    expect(forJan[13][0]).toEqual('E7b13/G#');
+  });
 
 })
