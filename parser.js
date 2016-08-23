@@ -19,7 +19,7 @@ module.exports = function(data){
   data = removeFromString(data, /N\d/); //repeat markers N1, N2, ...
   data = removeFromString(data, /Y+/); //vertical spacers
   data = removeFromString(data, 'XyQ'); //empty space
-  data = removeFromString(data, /[npsUSQ]/); //n: N.C, p: pause slash, U: END, S: Segno, Q: Coda, s: small,
+  data = removeFromString(data, /[npsUSQ]/); //n: N.C, p: pause slash, U: END, S: Segno, Q: Coda, s: small (consider using s when implementing chord duration)
 
   var measures = data.split(/\||LZ|K|Z|\{|\}|\[|\]/g)//measures are delimited by |, LZ, {, } (repeat markers), [, ] (double barlines). Also splitting on K because Kcl seems to indicate a repeat of the previous measure. Z is the end of a song usually.
 

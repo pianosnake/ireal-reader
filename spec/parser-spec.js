@@ -40,12 +40,6 @@ describe('iRealPro parser', function(){
     expect(theBreezeAndI[5][0]).toEqual('Db-7');
   });
 
-  it('should handle Kcl repeats correctly', function(){
-    expect(theBreezeAndI[2][0]).toEqual('Eb6');
-    expect(theBreezeAndI[3][0]).toEqual('Eb6');
-    expect(theBreezeAndI[5][0]).toEqual('Db-7');
-  });
-
   it('should handle slash chords correctly', function(){
     expect(theBreezeAndI[10][0]).toEqual('F-7/Bb');
     expect(imagination[13][1]).toEqual('A7b9/C#')
