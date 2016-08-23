@@ -3,6 +3,7 @@
 const unscramble = require('./unscramble');
 const musicPrefix = "1r34LbKcu7";
 const regex = /.*?irealb:\/\/([^"]*)/;
+const parser = require('./parser');
 
 function iRealReader(data){
   const percentEncoded = regex.exec(data);
@@ -37,50 +38,7 @@ function Music(data){
   //TODO: read the time signature
   this.timeSignature = 'T44';
 
-  this.measures = createMeasures(this.raw)
-}
-
-function createMeasures(data) {
-  //TODO: keep track of repeats when encountering { and }
-
-    var measures =  data.split(/\||LZ|K|Z|\{|\}|\[|\]/g)//measures are delimited by |, LZ, {, } (repeat markers), [, ] (double barlines). Also splitting on K because Kcl seems to indicate a repeat of the previous measure. Z is the end of a song usually.
-    .map((x, index, array) => chordsOnly(x, index, array))
-    .filter(x => !/^\s*$/.test(x))  //filter out blank measures
-
-  return fillInRepeats(measures);
-}
-
-function fillInRepeats(measures){
-  var repeatMeasure = measures.findIndex(x => x[0] === 'r');
-  while(repeatMeasure != -1){
-    measures.splice(repeatMeasure, 1, measures[repeatMeasure-2], measures[repeatMeasure-1]);
-    repeatMeasure = measures.findIndex(x => x && x[0] === 'r');
-  }
-  return measures;
-}
-
-function removeFromString(string, toRemove){
-  return string.split(toRemove).join('');
-}
-
-function chordsOnly(data, index, array){
-  if(data.indexOf('cl') === 0 ){ data = array[index-1]; } //Kcl is a repeat of whatever measure it's in. We've already split on the K's
-  if(data.indexOf('x') >= 0 ){ data = array[index-1]; } //x is a repeat of the measure before
-  data = removeFromString(data, /\*\w/); //section markers *A, *B, *C
-  data = removeFromString(data, /T\d+/); //time signatures T44, T34
-  data = removeFromString(data, /N\d/); //repeat markers N1, N2, ...
-  data = removeFromString(data, /<.*>/); //repeat comments in between carrets < ... >
-  data = removeFromString(data, 'XyQ'); //empty space marker XyQ
-  data = removeFromString(data, 'U'); //empty space marker U
-  data = removeFromString(data, 'Kcl'); //repeat current measure marker Kcl
-  data = removeFromString(data, 'x'); //repeat previous measure marker x
-  data = removeFromString(data, 'Q'); //coda marker
-  data = removeFromString(data, 's'); //unknown marker s
-  data = removeFromString(data, 'l'); //unknown marker l
-  data = removeFromString(data, 'Y'); //vertical spacer
-  return data
-    .split(/\s+|,/) //lastly split on commas or spaces
-    .filter(x => !/^\s*$/.test(x)) // filter out blanks
+  this.measures = parser(this.raw)
 }
 
 module.exports = iRealReader;
