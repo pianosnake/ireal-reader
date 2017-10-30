@@ -48,8 +48,10 @@ fs.readFile("ireal-output-file.html", "utf8", function(err, data) {
 }
 ```
 ### Developing
-Feel free to fork or submit pull requests. 
-
-Run tests with `npm test`
+Feel free to fork or submit pull requests. Run tests with `npm test`
 
 To develop and use the project locally, use `npm pack`. This will create a .tgz file that can be used locally by other modules. In your other project do `npm install path/to/ireal-reader-xxx.tgz`
+
+### Acknowledgments
+
+The irealb schema was originally cracked by Stephen Irons' [Accompaniser](https://github.com/ironss/accompaniser). The JSON format is a simplification of Ben Hughes' [Chords JSON](https://github.com/rubiety/chords-json) format.

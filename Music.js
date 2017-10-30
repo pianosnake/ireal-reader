@@ -53,15 +53,13 @@ function removeNonMusicalInfo(data){
 }
 
 function fillDoubleRepeats(measures){
+  const r = m => m.indexOf('r') >= 0;
+
   //an 'r' becomes the two previous measures (drawn as a double angled bar)
-  let repeatMeasureIdx = measures.findIndex(m =>{
-    return m.indexOf('r') >= 0
-  });
+  let repeatMeasureIdx = measures.findIndex(r);
   while(repeatMeasureIdx != -1){
     measures.splice(repeatMeasureIdx, 1, measures[repeatMeasureIdx - 2], measures[repeatMeasureIdx - 1]);
-    repeatMeasureIdx = measures.findIndex(m =>{
-      return m.indexOf('r') >= 0
-    });
+    repeatMeasureIdx = measures.findIndex(r);
   }
   return measures;
 }
@@ -69,20 +67,20 @@ function fillDoubleRepeats(measures){
 function fillSingleRepeats(measures){
   //the repeat marker is Kcl but we've already split on K, so only cl is left over
   //x appears in its own measure, (drawn as a single angled bar)
-  let repeatMeasureIdx = measures.findIndex(m =>{
-    return m.indexOf('x') >= 0 || m.indexOf('cl') >= 0
-  });
+  const xcl = m => m.indexOf('x') >= 0 || m.indexOf('cl') >= 0;
+
+  let repeatMeasureIdx = measures.findIndex(xcl);
   while(repeatMeasureIdx != -1){
     measures[repeatMeasureIdx] = measures[repeatMeasureIdx - 1];
-    repeatMeasureIdx = measures.findIndex(m =>{
-      return m.indexOf('x') >= 0 || m.indexOf('cl') >= 0
-    });
+    repeatMeasureIdx = measures.findIndex(xcl);
   }
   return measures;
 }
 
 function fillInvisibleSlashChords(measures){
-  let invisibleMeasureIdx = measures.findIndex(m => m.some(c => c[0] === 'W'));
+  const W = m => m.some(c => c[0] === 'W');
+
+  let invisibleMeasureIdx = measures.findIndex(W);
   while(invisibleMeasureIdx != -1){
     const curMeasure = measures[invisibleMeasureIdx];
     const invisibleChordIdx = curMeasure.findIndex(c => c[0] === 'W')
@@ -95,7 +93,7 @@ function fillInvisibleSlashChords(measures){
       const previousChord = previousMeasure[previousMeasure.length - 1].split("/")[0];
       curMeasure[invisibleChordIdx] = curMeasure[invisibleChordIdx].replace('W', previousChord);
     }
-    invisibleMeasureIdx = measures.findIndex(m => m.some(c => c[0] === 'W'));
+    invisibleMeasureIdx = measures.findIndex(W);
   }
   return measures;
 }
