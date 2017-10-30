@@ -5,7 +5,7 @@ const iRealReader = require('../index');
 const util = require('util');
 
 describe('iReal Reader', function(){
-  var playlist;
+  let playlist;
 
   describe('tiny playlist containing one song', function(){
     beforeEach(function(){
@@ -69,10 +69,10 @@ describe('iReal Reader', function(){
     });
 
     it('every chord returned should start with A, B, C, D, E, F, or G', function(){
-      var allMeasures = [];
+      let allMeasures = [];
       playlist.songs.forEach(s => allMeasures.push(s.music.measures));
 
-      var allChords = [].concat.apply(allMeasures);
+      let allChords = [].concat.apply(allMeasures);
       expect(allChords.every(chord => (/^[a-g]/i).test(chord))).toEqual(true);
      });
   });

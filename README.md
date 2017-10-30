@@ -44,7 +44,7 @@ const iRealReader = require('ireal-reader');
 
 fs.readFile("ireal-output-file.html", "utf8", function(err, data) {
     if (err) throw err;
-    var playlist = new iRealReader(data);
+    const playlist = new iRealReader(data);
 }
 ```
 ### Developing

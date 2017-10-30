@@ -26,7 +26,7 @@ class Music {
 module.exports = Music;
 
 function getMeasures(data){
-  var measures = data.split(/\||LZ|K|Z|\{|\}|\[|\]/g)//measures are delimited by |, LZ, {, } (repeat markers), [, ] (double barlines). Also splitting on K because Kcl seems to indicate a repeat of the previous measure. Z is the end of a song usually.
+  let measures = data.split(/\||LZ|K|Z|\{|\}|\[|\]/g)//measures are delimited by |, LZ, {, } (repeat markers), [, ] (double barlines). Also splitting on K because Kcl seems to indicate a repeat of the previous measure. Z is the end of a song usually.
 
   measures = fillSingleRepeats(measures);
   measures = fillDoubleRepeats(measures);
@@ -54,7 +54,7 @@ function removeNonMusicalInfo(data){
 
 function fillDoubleRepeats(measures){
   //an 'r' becomes the two previous measures (drawn as a double angled bar)
-  var repeatMeasureIdx = measures.findIndex(m =>{
+  let repeatMeasureIdx = measures.findIndex(m =>{
     return m.indexOf('r') >= 0
   });
   while(repeatMeasureIdx != -1){
@@ -69,7 +69,7 @@ function fillDoubleRepeats(measures){
 function fillSingleRepeats(measures){
   //the repeat marker is Kcl but we've already split on K, so only cl is left over
   //x appears in its own measure, (drawn as a single angled bar)
-  var repeatMeasureIdx = measures.findIndex(m =>{
+  let repeatMeasureIdx = measures.findIndex(m =>{
     return m.indexOf('x') >= 0 || m.indexOf('cl') >= 0
   });
   while(repeatMeasureIdx != -1){
@@ -82,17 +82,17 @@ function fillSingleRepeats(measures){
 }
 
 function fillInvisibleSlashChords(measures){
-  var invisibleMeasureIdx = measures.findIndex(m => m.some(c => c[0] === 'W'));
+  let invisibleMeasureIdx = measures.findIndex(m => m.some(c => c[0] === 'W'));
   while(invisibleMeasureIdx != -1){
-    var curMeasure = measures[invisibleMeasureIdx];
-    var invisibleChordIdx = curMeasure.findIndex(c => c[0] === 'W')
+    const curMeasure = measures[invisibleMeasureIdx];
+    const invisibleChordIdx = curMeasure.findIndex(c => c[0] === 'W')
 
     if(invisibleChordIdx > 0){
-      var previousChord = curMeasure[invisibleChordIdx - 1].split("/")[0];
+      const previousChord = curMeasure[invisibleChordIdx - 1].split("/")[0];
       curMeasure[invisibleChordIdx] = curMeasure[invisibleChordIdx].replace('W', previousChord);
     }else{
-      var previousMeasure = measures[invisibleMeasureIdx - 1];
-      var previousChord = previousMeasure[previousMeasure.length - 1].split("/")[0];
+      const previousMeasure = measures[invisibleMeasureIdx - 1];
+      const previousChord = previousMeasure[previousMeasure.length - 1].split("/")[0];
       curMeasure[invisibleChordIdx] = curMeasure[invisibleChordIdx].replace('W', previousChord);
     }
     invisibleMeasureIdx = measures.findIndex(m => m.some(c => c[0] === 'W'));
