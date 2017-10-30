@@ -32,7 +32,7 @@ The output is a JS object similar to the following:
 }
 ```
 
-###Usage
+### Usage
 
 Install the module with `npm install ireal-reader`. In your project read in the HTML or `ireal://...` url output from iRealPro.
 
@@ -44,10 +44,10 @@ const iRealReader = require('ireal-reader');
 
 fs.readFile("ireal-output-file.html", "utf8", function(err, data) {
     if (err) throw err;
-    var iRealData = new iRealReader(data);
+    var playlist = new iRealReader(data);
 }
 ```
-###Developing
+### Developing
 Feel free to fork or submit pull requests. 
 
 Run tests with `npm test`

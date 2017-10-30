@@ -9,18 +9,23 @@
 //    followed by A-G
 //    followed by optional # or b
 
-const chordRegex = /[A-GW]{1}[\+\-\^ho\d#b]*(\/[A-G][#b]?)?/g;
+const chordRegex = /[A-GW]{1}[\+\-\^\dhob#]*(\/[A-G][#b]?)?/g;
+const musicPrefix = "1r34LbKcu7";
+const unscramble = require('./unscramble');
 
-module.exports = function(data){
-  data = removeFromString(data, /<.*?>/); //comments delimited by carets < ... >, non-greedy match. do this first as these may contain other symbols that we look for later on.
-  data = removeFromString(data, /\*\s*\*/); //stars with empty space in between *  *
-  data = removeFromString(data, /\*\w/); //section markers *A, *B, *C
-  data = removeFromString(data, /T\d+/); //time signatures T44, T34
-  data = removeFromString(data, /N\d/); //repeat markers N1, N2, ...
-  data = removeFromString(data, /Y+/); //vertical spacers
-  data = removeFromString(data, 'XyQ'); //empty space
-  data = removeFromString(data, /[npsUSQ]/); //n: N.C, p: pause slash, U: END, S: Segno, Q: Coda, s: small (consider using s when implementing chord duration)
+class Music {
+  constructor(data){
+    const parts = data.split(musicPrefix);
+    this.raw = unscramble.ireal(parts[1]);
+    //TODO: read the time signature
+    this.timeSignature = 'T44';
+    const musicData = removeNonMusicalInfo(this.raw);
+    this.measures = getMeasures(musicData)
+  }
+}
+module.exports = Music;
 
+function getMeasures(data){
   var measures = data.split(/\||LZ|K|Z|\{|\}|\[|\]/g)//measures are delimited by |, LZ, {, } (repeat markers), [, ] (double barlines). Also splitting on K because Kcl seems to indicate a repeat of the previous measure. Z is the end of a song usually.
 
   measures = fillSingleRepeats(measures);
@@ -34,28 +39,49 @@ module.exports = function(data){
   return measures;
 }
 
-function fillDoubleRepeats (measures){
-  //an 'r' becomes the two previous measures (double angled bar)
-  var repeatMeasureIdx = measures.findIndex(m =>{ return m.indexOf('r') >= 0 });
+function removeNonMusicalInfo(data){
+  //remove all the non-musical information
+  data = removeFromString(data, /<.*?>/); //comments delimited by carets < ... >, non-greedy match. do this first as these may contain other symbols that we look for later on.
+  data = removeFromString(data, /\*\s*\*/); //stars with empty space in between *  *
+  data = removeFromString(data, /\*\w/); //section markers *A, *B, *C
+  data = removeFromString(data, /T\d+/); //time signatures T44, T34
+  data = removeFromString(data, /N\d/); //repeat markers N1, N2, ...
+  data = removeFromString(data, /Y+/); //vertical spacers
+  data = removeFromString(data, 'XyQ'); //empty space
+  data = removeFromString(data, /[npsUSQ]/); //n: N.C, p: pause slash, U: END, S: Segno, Q: Coda, s: small (consider using s when implementing chord duration)
+  return data;
+}
+
+function fillDoubleRepeats(measures){
+  //an 'r' becomes the two previous measures (drawn as a double angled bar)
+  var repeatMeasureIdx = measures.findIndex(m =>{
+    return m.indexOf('r') >= 0
+  });
   while(repeatMeasureIdx != -1){
     measures.splice(repeatMeasureIdx, 1, measures[repeatMeasureIdx - 2], measures[repeatMeasureIdx - 1]);
-    repeatMeasureIdx = measures.findIndex(m =>{ return m.indexOf('r') >= 0 });
+    repeatMeasureIdx = measures.findIndex(m =>{
+      return m.indexOf('r') >= 0
+    });
   }
   return measures;
 }
 
-function fillSingleRepeats (measures){
+function fillSingleRepeats(measures){
   //the repeat marker is Kcl but we've already split on K, so only cl is left over
-  //x appears in its own measure
-  var repeatMeasureIdx = measures.findIndex(m =>{ return m.indexOf('x') >= 0 || m.indexOf('cl') >= 0 });
+  //x appears in its own measure, (drawn as a single angled bar)
+  var repeatMeasureIdx = measures.findIndex(m =>{
+    return m.indexOf('x') >= 0 || m.indexOf('cl') >= 0
+  });
   while(repeatMeasureIdx != -1){
     measures[repeatMeasureIdx] = measures[repeatMeasureIdx - 1];
-    repeatMeasureIdx = measures.findIndex(m =>{ return m.indexOf('x') >= 0 || m.indexOf('cl') >= 0 });
+    repeatMeasureIdx = measures.findIndex(m =>{
+      return m.indexOf('x') >= 0 || m.indexOf('cl') >= 0
+    });
   }
   return measures;
 }
 
-function fillInvisibleSlashChords (measures){
+function fillInvisibleSlashChords(measures){
   var invisibleMeasureIdx = measures.findIndex(m => m.some(c => c[0] === 'W'));
   while(invisibleMeasureIdx != -1){
     var curMeasure = measures[invisibleMeasureIdx];
@@ -74,6 +100,7 @@ function fillInvisibleSlashChords (measures){
   return measures;
 }
 
-function removeFromString (string, toRemove){
+function removeFromString(string, toRemove){
   return string.split(toRemove).join('');
 }
+
