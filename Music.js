@@ -9,7 +9,7 @@
 //    followed by A-G
 //    followed by optional # or b
 
-const chordRegex = /[A-GW]{1}[\+\-\^\dhob#]*(\/[A-G][#b]?)?/g;
+const chordRegex = /[A-GW]{1}[\+\-\^\dhob#suad]*(\/[A-G][#b]?)?/g;
 const musicPrefix = "1r34LbKcu7";
 const unscramble = require('./unscramble');
 
@@ -48,7 +48,8 @@ function removeNonMusicalInfo(data){
   data = removeFromString(data, /N\d/); //repeat markers N1, N2, ...
   data = removeFromString(data, /Y+/); //vertical spacers
   data = removeFromString(data, 'XyQ'); //empty space
-  data = removeFromString(data, /[npsUSQ]/); //n: N.C, p: pause slash, U: END, S: Segno, Q: Coda, s: small (consider using s when implementing chord duration)
+  data = removeFromString(data, /[npUSQ]/); //n: N.C, p: pause slash, U: END, S: Segno, Q: Coda, 
+  //s: small (consider using s when implementing chord duration)
   return data;
 }
 

@@ -10,6 +10,7 @@ const testSong = songData.songs[0].music.measures;
 const theBreezeAndI = songData.songs[3].music.measures;
 const imagination = songData.songs[4].music.measures;
 const forJan = songData.songs[5].music.measures;
+const allOfMe = songData.songs[6].music.measures;
 
 describe('iRealPro parser', function(){
 
@@ -49,6 +50,12 @@ describe('iRealPro parser', function(){
     expect(forJan[0][0]).toEqual('Bb^7#11');
     expect(forJan[2][0]).toEqual('A7b9b13');
     expect(forJan[13][0]).toEqual('E7b13/G#');
+  });
+
+  it('should handle add/sus chords correctly', function(){
+    expect(allOfMe[2][0]).toEqual('Eadd9');
+    expect(allOfMe[4][0]).toEqual('Asus');
+    expect(allOfMe[4][1]).toEqual('A7susadd3');
   });
 
 })
