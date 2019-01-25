@@ -55,3 +55,7 @@ To develop and use the project locally, use `npm pack`. This will create a .tgz 
 ### Acknowledgments
 
 The irealb schema was originally cracked by Stephen Irons' [Accompaniser](https://github.com/ironss/accompaniser). The JSON format is a simplification of Ben Hughes' [Chords JSON](https://github.com/rubiety/chords-json) format.
+
+## License
+
+[MIT License](http://opensource.org/licenses/MIT)

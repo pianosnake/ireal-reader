@@ -2,7 +2,6 @@
 
 const fixtures = require('./fixtures');
 const iRealReader = require('../index');
-const util = require('util');
 
 describe('iReal Reader', function(){
   let playlist;
