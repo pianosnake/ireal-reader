@@ -195,11 +195,3 @@ module.exports = function (raw) {
   parse(raw);
   return { measures: removeEmptyMeasures(measures), timeSignature, raw };
 }
-
-
-//updates
-//-handles NC as null chords
-//-repeats 1.2.3 
-//-segno, coda
-// -time signature
-//- removed the Song constructor, and Playlist constructor. now returning pure JSON
