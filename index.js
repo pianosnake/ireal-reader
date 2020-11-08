@@ -3,7 +3,7 @@
 const protocolRegex = /.*?irealb:\/\/([^"]*)/;
 const musicPrefix = "1r34LbKcu7";
 const unscramble = require('./unscramble');
-const parser = require('./parser');
+const parser = require('./Parser');
 
 function parseMusic(data) {
   const parts = data.split(musicPrefix);
