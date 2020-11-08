@@ -71,6 +71,7 @@ Then, load this library in your TypeScript class like so:
 	
 Then, call it:
 
+    const iRealHtml: string = '<HTML ...';
     const iRealJson = iRealReader(iRealHtml);
 
 
