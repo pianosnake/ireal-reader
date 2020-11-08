@@ -62,7 +62,7 @@ fs.readFile("ireal-output-file.html", "utf8", function(err, data) {
 
 The example below shows how to read the music from an HTML file using TypeScript.
 
-First, in your project, `npm install ireal-reader-1.0.3.tgz --save`.  Also, for example, if you are using Angular2, you 
+First, in your project, `npm install ireal-reader-1.3.0.tgz --save`.  Also, for example, if you are using Angular2, you 
 might need a `irealreader.d.ts` file containing the text `declare module 'ireal-reader';` in  your `app` folder.
 
 Then, load this library in your TypeScript class like so:
