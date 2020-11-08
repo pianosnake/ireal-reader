@@ -40,9 +40,13 @@ The output is a JS object similar to the one shown below. Repeated measures, end
 
 ### Usage
 
-Install the module with `npm install ireal-reader`. In your project read in the HTML or `ireal://...` url output from iRealPro.
+Install the module with `npm install ireal-reader`.  To save to your projects `package.json`, use `npm install ireal-reader --save`.
 
-The example below shows how to read the music from an HTML file:
+Then, in your project, read in the HTML or `ireal://...` url output from iRealPro.
+
+#### JavaScript
+
+The example below shows how to read the music from an HTML file using plain JavaScript:
 
 ``` javascript
 const fs = require('fs');
@@ -53,6 +57,22 @@ fs.readFile("ireal-output-file.html", "utf8", function(err, data) {
     const playlist = iRealReader(data);
 }
 ```
+
+#### TypeScript
+
+The example below shows how to read the music from an HTML file using TypeScript.
+
+First, in your project, `npm install ireal-reader-1.0.3.tgz --save`.  Also, for example, if you are using Angular2, you 
+might need a `irealreader.d.ts` file containing the text `declare module 'ireal-reader';` in  your `app` folder.
+
+Then, load this library in your TypeScript class like so:
+
+    import * as iRealReader from 'ireal-reader';
+	
+Then, call it:
+
+    const iRealJson = iRealReader(iRealHtml);
+
 
 ### Developing
 Feel free to fork or submit pull requests. Run tests with `npm test`
