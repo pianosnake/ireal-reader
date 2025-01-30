@@ -5,11 +5,11 @@ const iRealReader = require('../index');
 
 const iRealData = fs.readFileSync("spec/Tester.html", 'utf8');
 const songData = new iRealReader(iRealData);
-const [testSong, neverBeSame, paperMoon, theBreezeAndI, imagination, forJan, allOfMe, comeFly, daphne, inHerFam, mySong, noComp, masquerade] = songData.songs;
+const [testSong, neverBeSame, paperMoon, theBreezeAndI, imagination, forJan, allOfMe, comeFly, daphne, inHerFam, mySong, noComp, masquerade, aTasteOfHoney] = songData.songs;
 
 describe('Song Parser', function () {
   it('should have the right number of songs', function () {
-    expect(songData.songs.length).toEqual(13);
+    expect(songData.songs.length).toEqual(14);
   });
 
   it('every chord returned should start with A, B, C, D, E, F, G or be null', function () {
@@ -335,4 +335,20 @@ describe('Song Parser', function () {
       ['F-7'], ['Bb13'], ['F-7'], ['Bb13']]);
   });
 
+  it('should correctly parse A Taste Of Honey', () => {
+    // console.log(aTasteOfHoney.music.raw)
+    // print(aTasteOfHoney.music.measures)
+    expect(aTasteOfHoney.title).toEqual('A Taste Of Honey')
+    expect(aTasteOfHoney.composer).toEqual('Marlow-Scott')
+    expect(aTasteOfHoney.key).toEqual('D-')
+    expect(aTasteOfHoney.music.timeSignature).toEqual('34');
+    expect(aTasteOfHoney.music.measures).toEqual([
+      ['D-'], ['D-^7'], ['D-7'], ['G7'],
+      ['D-'], ['D-^7'], ['D-7'], ['G7'],
+      ['D-'], ['D-'], ['Bb^7'], ['A-7'],
+      ['D-'], ['D-'], ['D-7'], ['G7'],
+      ['D-7'], ['G7'], ['Bb^7'], ['A-7'],
+      ['D-'], ['Eh7', 'A7b9']
+    ]);
+  });
 })
