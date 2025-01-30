@@ -146,6 +146,9 @@ function repeatRemainingEndings() {
     measures.push(...measures.slice(segnoLocation, codaLocation));
     dsAlCodaImminent = false; 
   }
+  if (!(thirdEndingImminent || dcAlFineImminent
+        || dcAlCodaImminent || dsAlCodaImminent))
+    createNewMeasure();
 }
 
 function pushChordInMeasures(match) {
