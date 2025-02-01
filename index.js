@@ -4,6 +4,7 @@ const protocolRegex = /.*?irealb:\/\/([^"]*)/;
 const musicPrefix = "1r34LbKcu7";
 const unscramble = require('./unscramble');
 const parser = require('./Parser');
+const fs = require('fs');
 
 function parseMusic(data) {
   const parts = data.split(musicPrefix);
@@ -50,3 +51,15 @@ module.exports = function (data) {
     songs: parts.map(x => makeSong(x))
   }
 };
+
+if (require.main === module) {
+  const inputFile = process.argv[2];
+  if (inputFile) {
+    const data = fs.readFileSync(inputFile, 'utf8');
+    const result = module.exports(data);
+    console.log(JSON.stringify(result, null, 2));
+  } else {
+    console.error('Please provide an input file as the first argument');
+    process.exit(1);
+  }
+}
