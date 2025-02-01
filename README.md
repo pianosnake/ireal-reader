@@ -80,6 +80,8 @@ Feel free to fork or submit pull requests. Run tests with `npm test`
 
 To develop and use the project locally, use `npm pack`. This will create a .tgz file that can be used locally by other modules. In your other project do `npm install path/to/ireal-reader-xxx.tgz`
 
+The file Tester.html is used in the tests. It can also be opened in iRealPro to make sure it works there.
+
 ### Acknowledgments
 
 The irealb schema was originally cracked by Stephen Irons' [Accompaniser](https://github.com/ironss/accompaniser).
