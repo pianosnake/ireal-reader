@@ -57,7 +57,7 @@ if (require.main === module) {
   if (inputFile) {
     const data = fs.readFileSync(inputFile, 'utf8');
     const result = module.exports(data);
-    console.log(JSON.stringify(result, null, 1));
+    console.log(JSON.stringify(result, null, 2));
   } else {
     console.error('Please provide an input file as the first argument');
     process.exit(1);
