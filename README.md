@@ -40,11 +40,16 @@ The output is a JS object similar to the one shown below. Repeated measures, end
 
 ### Usage
 
+#### Command line
+
+Download the repo, change into the directory, and do `node index.js path/to/your/ireal/HTML.file`. The output will be JSON. 
+You can pipe the output to a JSON file like so: `node index.js path/to/your/ireal/HTML.file > output.json`
+
+#### As a Node module
+
 Install the module with `npm install ireal-reader`.  To save to your projects `package.json`, use `npm install ireal-reader --save`.
 
 Then, in your project, read in the HTML or `ireal://...` url output from iRealPro.
-
-#### JavaScript
 
 The example below shows how to read the music from an HTML file using plain JavaScript:
 
