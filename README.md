@@ -42,8 +42,8 @@ The output is a JS object similar to the one shown below. Repeated measures, end
 
 #### Command line
 
-Assuming you have Node.js installed and available on the command line. Download the repo, change into the directory, and do `node index.js path/to/your/ireal/HTML.file`. The output will be JSON. 
-You can pipe the output to a JSON file like so: `node index.js path/to/your/ireal/HTML.file > output.json`
+Assuming you have Node.js installed and available on the command line. Download the repo, change into the directory, and do `node index.js path/to/your/ireal/file.html`. The output will be JSON. 
+You can pipe the output to a JSON file like so: `node index.js path/to/your/ireal/file.html > output.json`
 
 #### As a Node module
 
